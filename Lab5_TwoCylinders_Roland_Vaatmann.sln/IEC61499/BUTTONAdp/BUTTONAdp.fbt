@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="AD981AA4B33C031F" Name="BUTTONAdp" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="10" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="vvya002" Date="7/20/2013" Remarks="template" />
+  <InterfaceList>
+    <InputVars>
+      <VarDeclaration Name="LABEL" Type="STRING" />
+    </InputVars>
+    <Plugs>
+      <AdapterDeclaration Name="Out1" Type="BoolAdp" Namespace="Main" x="2360" y="300" />
+      <AdapterDeclaration Name="Out2" Type="BoolAdp" Namespace="Main" x="2380" y="840" />
+    </Plugs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="1" Name="Main" Type="BUTTON" x="1620" y="300" Namespace="Main">
+      <Parameter Name="QI" Value="TRUE" />
+    </FB>
+    <FB ID="2" Name="Start" Type="E_RESTART" x="200" y="280" Namespace="IEC61499.Standard" />
+    <Input Name="LABEL" x="880" y="632" Type="Data" />
+    <EventConnections>
+      <Connection Source="Start.COLD" Destination="Main.INIT" dx1="68.60425" />
+      <Connection Source="Start.WARM" Destination="Main.INIT" dx1="70" />
+      <Connection Source="Main.IND" Destination="Out1.CNF" />
+      <Connection Source="Main.IND" Destination="Out2.CNF" dx1="63.39587" />
+      <Connection Source="Main.INITO" Destination="Out2.INITO" dx1="83.39587" />
+      <Connection Source="Main.INITO" Destination="Out1.INITO" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="LABEL" Destination="Main.LABEL">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Main.VAL" Destination="Out1.DO1" dx1="43.39587" />
+      <Connection Source="Main.VAL" Destination="Out2.DO1" dx1="43.39587" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DeviceProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DefaultProfile />
+  <Profile Name="(Local Test)">
+    <Device Name="DEV1">
+      <ComplexProperty Name="Configuration" Expanded="true">
+        <ComplexProperty Name="Communication" Expanded="true">
+          <ComplexProperty Name="Endpoint" Expanded="true">
+            <ComplexProperty Name="WebSocket" Expanded="true">
+              <Property Name="Encryption" Value="False" IsPassword="false" />
+            </ComplexProperty>
+          </ComplexProperty>
+        </ComplexProperty>
+      </ComplexProperty>
+    </Device>
+    <Device Name="DEV2">
+      <ComplexProperty Name="Ports" Expanded="true">
+        <Property Name="Deploy" Value="51444" IsPassword="false" />
+        <Property Name="Archive" Value="51497" IsPassword="false" />
+      </ComplexProperty>
+      <ComplexProperty Name="Configuration" Expanded="true">
+        <GroupProperty Name="Communication" Expanded="true" Enabled="true">
+          <GroupProperty Name="ReliableCrossComm" Expanded="true" Enabled="true">
+            <Property Name="URI" Value="udp://0.0.0.0:41500" IsPassword="false" />
+          </GroupProperty>
+        </GroupProperty>
+      </ComplexProperty>
+    </Device>
+  </Profile>
+</DeviceProperties>

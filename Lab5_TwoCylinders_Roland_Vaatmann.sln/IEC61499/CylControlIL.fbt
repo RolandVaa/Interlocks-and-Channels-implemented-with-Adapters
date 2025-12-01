@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="096a59cf-36cb-4863-9385-49986e16d08b" Name="CylControlIL" Comment="Basic Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="0" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="paarnio" Date="11/30/2015" Remarks="Template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request">
+        <With Var="Home" />
+        <With Var="End" />
+        <With Var="Start" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="Home" />
+        <With Var="End" />
+        <With Var="Start" />
+        <With Var="CLR" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm">
+        <With Var="FWD" />
+        <With Var="RETR" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation">
+        <With Var="FWD" />
+        <With Var="RETR" />
+        <With Var="STATE" />
+        <With Var="STOPD" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Home" Type="BOOL" />
+      <VarDeclaration Name="End" Type="BOOL" />
+      <VarDeclaration Name="Start" Type="BOOL" />
+      <VarDeclaration Name="CLR" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="FWD" Type="BOOL" />
+      <VarDeclaration Name="RETR" Type="BOOL" />
+      <VarDeclaration Name="STATE" Type="STRING" />
+      <VarDeclaration Name="STOPD" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <Attribute Name="FBType.Basic.Algorithm.Order" Value="INIT,FWD,BACK,STOP" />
+    <ECC>
+      <ECState Name="START" Comment="Initial State" x="892.9409" y="377.4117" />
+      <ECState Name="INIT" Comment="Initialization" x="1463.53" y="377.1765">
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="Go" x="780" y="1264">
+        <ECAction Algorithm="FWD" Output="CNF" />
+      </ECState>
+      <ECState Name="Retract" x="2220" y="1272">
+        <ECAction Algorithm="BACK" Output="CNF" />
+      </ECState>
+      <ECState Name="LeftPos" x="1472" y="748.0001">
+        <ECAction Algorithm="STOP" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="1198.823" y="372.1419">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="287.3154,93.64372,312.4405,92.016" />
+      </ECTransition>
+      <ECTransition Source="INIT" Destination="LeftPos" Condition="1" x="1470.524" y="577.9824">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="367.2822,137.0648,368.2622,154.4921" />
+      </ECTransition>
+      <ECTransition Source="LeftPos" Destination="Go" Condition="REQ[Start] AND CLR" x="999.8234" y="941.3112">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="267.1276,213.5097,221.1244,247.8127" />
+      </ECTransition>
+      <ECTransition Source="Go" Destination="Retract" Condition="REQ[End]" x="1479.24" y="1483.893">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="317.7548,384.6954,420.6278,385.2669" />
+      </ECTransition>
+      <ECTransition Source="Retract" Destination="LeftPos" Condition="REQ[Home]" x="1964.001" y="942.3052">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="521.3238,248.1947,471.4054,213.2251" />
+      </ECTransition>
+    </ECC>
+    <Algorithm Name="INIT" Comment="Initialization algorithm">
+      <ST Text="FWD :=FALSE;&#xD;&#xA;RETR:=FALSE;&#xD;&#xA;STATE:='INIT';&#xD;&#xA;//State:=0;" />
+    </Algorithm>
+    <Algorithm Name="FWD">
+      <ST Text="STOPD := FALSE;&#xD;&#xA;FWD :=TRUE;&#xD;&#xA;STATE:='FWD';&#xD;&#xA;//State:=2;" />
+    </Algorithm>
+    <Algorithm Name="BACK">
+      <ST Text="STOPD := FALSE;&#xD;&#xA;FWD :=FALSE;&#xD;&#xA;RETR:=TRUE;&#xD;&#xA;STATE:='BACK';&#xD;&#xA;//State:=3;" />
+    </Algorithm>
+    <Algorithm Name="STOP">
+      <ST Text="STOPD := TRUE;&#xD;&#xA;FWD :=FALSE;&#xD;&#xA;RETR:=FALSE;&#xD;&#xA;STATE:='STOP';&#xD;&#xA;//State:=1;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType Name="HCylinderSA" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="14" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Horst Mayer" Date="9/14/2008" Remarks="template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="pv1" />
+        <With Var="pv2" />
+        <With Var="Label" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CHG">
+        <With Var="StartSW" />
+        <With Var="EndSW" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="pv1" Type="REAL" />
+      <VarDeclaration Name="pv2" Type="REAL" />
+      <VarDeclaration Name="Label" Type="STRING" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="StartSW" Type="BOOL" />
+      <VarDeclaration Name="EndSW" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="2" Name="ValvePush" Type="Valve" x="1160" y="200" Namespace="Main" />
+    <FB ID="3" Name="ValvePop" Type="Valve" x="2200" y="200" Namespace="Main" />
+    <FB ID="11" Name="FB1" Type="E_MERGE" x="2920" y="1360" Namespace="IEC61499.Standard" />
+    <FB ID="12" Name="LeftSns" Type="Sensor" x="780" y="1400" Namespace="Main">
+      <Parameter Name="range" Value="[0.0,4.0]" />
+    </FB>
+    <FB ID="13" Name="RightSns" Type="Sensor" x="2340" y="1440" Namespace="Main">
+      <Parameter Name="range" Value="[97.0,100.0]" />
+    </FB>
+    <FB ID="14" Name="Cylinder" Type="HCylinder" x="1640" y="740" Namespace="Main" />
+    <Input Name="REQ">
+      <Position>
+        <X>135</X>
+        <Y>67.96355</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Input>
+    <Input Name="pv1">
+      <Position>
+        <X>135</X>
+        <Y>252.963547</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Input Name="pv2">
+      <Position>
+        <X>135</X>
+        <Y>267.963531</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Input Name="Label">
+      <Position>
+        <X>135</X>
+        <Y>282.963531</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Output Name="CHG">
+      <Position>
+        <X>810</X>
+        <Y>342.963531</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Output>
+    <Output Name="StartSW">
+      <Position>
+        <X>370</X>
+        <Y>447.963531</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Output>
+    <Output Name="EndSW">
+      <Position>
+        <X>775</X>
+        <Y>447.963562</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Output>
+    <EventConnections>
+      <Connection Source="ValvePush.INITO" Destination="ValvePop.INIT" />
+      <Connection Source="FB1.EO" Destination="CHG" dx1="40" />
+      <Connection Source="REQ" Destination="ValvePush.REQ" dx1="48.95837" />
+      <Connection Source="REQ" Destination="ValvePop.REQ">
+        <Points>
+          <Points>
+            <X>200.2604</X>
+            <Y>75</Y>
+          </Points>
+          <Points>
+            <X>212.5</X>
+            <Y>75</Y>
+          </Points>
+          <Points>
+            <X>212.5</X>
+            <Y>32.5</Y>
+          </Points>
+          <Points>
+            <X>385</X>
+            <Y>32.5</Y>
+          </Points>
+          <Points>
+            <X>385</X>
+            <Y>74.5</Y>
+          </Points>
+          <Points>
+            <X>545</X>
+            <Y>74.5</Y>
+          </Points>
+        </Points>
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="LeftSns.CHG" Destination="FB1.EI1">
+        <Points>
+          <Points>
+            <X>290.59375</X>
+            <Y>359.5</Y>
+          </Points>
+          <Points>
+            <X>303.09375</X>
+            <Y>359.5</Y>
+          </Points>
+          <Points>
+            <X>303.09375</X>
+            <Y>342.5</Y>
+          </Points>
+          <Points>
+            <X>692.5</X>
+            <Y>342.5</Y>
+          </Points>
+          <Points>
+            <X>692.5</X>
+            <Y>349.5</Y>
+          </Points>
+          <Points>
+            <X>725</X>
+            <Y>349.5</Y>
+          </Points>
+        </Points>
+      </Connection>
+      <Connection Source="RightSns.CHG" Destination="FB1.EI2" dx1="50" />
+      <Connection Source="Cylinder.INITO" Destination="ValvePush.INIT" dx1="57.79175" dx2="70" dy="-108" />
+      <Connection Source="Cylinder.IND" Destination="LeftSns.REQ" dx1="107.7917" dx2="30" dy="482">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Cylinder.IND" Destination="RightSns.REQ" dx1="268.8958">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="REQ" Destination="Cylinder.REQ" dx1="48.95837" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="pv1" Destination="ValvePush.value" dx1="67.97919">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="pv2" Destination="ValvePop.value" dx1="637.9792" />
+      <Connection Source="LeftSns.res" Destination="StartSW" dx1="47.625" />
+      <Connection Source="RightSns.res" Destination="EndSW" dx1="47.625" />
+      <Connection Source="Cylinder.position" Destination="LeftSns.position" dx1="40" dx2="70" dy="242">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Cylinder.position" Destination="RightSns.position" dx1="207.7917">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="pv1" Destination="Cylinder.pv1" dx1="40" />
+      <Connection Source="pv2" Destination="Cylinder.pv2" dx1="40" />
+      <Connection Source="Label" Destination="Cylinder.Label" dx1="40" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="137c90df-6ba5-4ff9-8174-9a1909dad0f9" Name="ChanRcvBool" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="4" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmBH" Version="0.0" Author="vaatmar1" Date="12/6/2023" Remarks="template" />
+  <InterfaceList>
+    <Sockets>
+      <AdapterDeclaration Name="CI" Type="BoolAdp" Namespace="Main" x="740" y="840" />
+    </Sockets>
+    <Plugs>
+      <AdapterDeclaration Name="DO1" Type="BoolAdp" Namespace="Main" x="3220" y="920" />
+    </Plugs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="3" Name="FB1" Type="InputChannelV2BOOL" x="1480" y="740" Namespace="Main" />
+    <EventConnections>
+      <Connection Source="DO1.INIT" Destination="FB1.INIT" dx1="43.771" dx2="150" dy="-540">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="FB1.ChannelReceived" Destination="DO1.CNF" dx1="386.7292">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="FB1.ChannelReceived" Destination="FB1.REQ" dx1="160" dx2="70" dy="-110" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="CI.DO1" Destination="FB1.Part_w_s" dx1="43.77087" />
+      <Connection Source="FB1.DataOut" Destination="DO1.DO1" dx1="306.7292">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="FB1.r_s_val" Destination="CI.DI1" dx1="206.7292" dx2="100" dy="500">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DataType SYSTEM "../DataType.dtd" >
+<DataType Name="DataType1" Namespace="Main" Comment="IEC61131-3, Table 14#5" >
+  <Identification Standard="1131-3" />
+  <VersionInfo Organization="nxtControl GmBH" Version="0.0" Author="valeriy" Date="8/22/2023" Remarks="Template" />
+  <CompilerInfo />
+  <StructuredType>
+    <VarDeclaration Name="item1" Type="BOOL" />
+    <VarDeclaration Name="item2" Type="REAL" />
+    <VarDeclaration Name="item3" Type="STRING" />
+  </StructuredType>
+</DataType>

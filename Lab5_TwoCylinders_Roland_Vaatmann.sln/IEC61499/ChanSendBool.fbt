@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="1849c184-85eb-45cb-93ae-30a993f78955" Name="ChanSendBool" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="7" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmBH" Version="0.0" Author="vaatmar1" Date="12/6/2023" Remarks="template" />
+  <InterfaceList>
+    <Sockets>
+      <AdapterDeclaration Name="DI" Type="BoolAdp" Namespace="Main" x="1240" y="600" />
+    </Sockets>
+    <Plugs>
+      <AdapterDeclaration Name="CO" Type="AdpChan" Namespace="Main" x="3560" y="460" />
+    </Plugs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="3" Name="FB1" Type="OutputChannelV2BOOL" x="1960" y="380" Namespace="Main">
+      <Parameter Name="WithCSIFB" Value="FALSE" />
+      <Parameter Name="HasData" Value="TRUE" />
+    </FB>
+    <EventConnections>
+      <Connection Source="DI.INITO" Destination="FB1.INIT" dx1="50" />
+      <Connection Source="DI.CNF" Destination="FB1.REQ" dx1="70" />
+      <Connection Source="FB1.update_statuses_to_partner" Destination="CO.EO1" dx1="60" />
+      <Connection Source="FB1.ReqChStUpd" Destination="CO.EO2" dx1="60" />
+      <Connection Source="CO.EI2" Destination="FB1.RcvReqChStUpd" dx1="100" dx2="90" dy="-310" />
+      <Connection Source="CO.EI1" Destination="FB1.Partner_Statuses_Change" dx1="120" dx2="90" dy="-250" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FB1.w_s_val" Destination="CO.DO1" dx1="40" />
+      <Connection Source="DI.DO1" Destination="FB1.DataIn" dx1="43.77087" />
+      <Connection Source="CO.DI1" Destination="FB1.Part_r_s" dx1="75.875" dx2="70" dy="490" />
+      <Connection Source="CO.DI3" Destination="FB1.Part_preempted" dx1="40" dx2="130" dy="370" />
+      <Connection Source="CO.DI2" Destination="FB1.Part_r_r" dx1="60" dx2="130" dy="430" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

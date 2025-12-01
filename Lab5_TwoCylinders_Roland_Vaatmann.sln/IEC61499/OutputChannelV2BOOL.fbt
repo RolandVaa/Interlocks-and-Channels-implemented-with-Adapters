@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="7d934f21-80c0-4c7b-806c-9347ee614232" Name="OutputChannelV2BOOL" Comment="Basic Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="0" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Atmojo" Date="12/03/2018" Remarks="Template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" />
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="DataIn" />
+        <With Var="HasData" />
+        <With Var="WithCSIFB" />
+      </Event>
+      <Event Name="Preempt" />
+      <Event Name="Partner_Statuses_Change">
+        <With Var="Part_r_s" />
+        <With Var="Part_r_r" />
+        <With Var="Part_preempted" />
+      </Event>
+      <Event Name="Confirmed_Transmission" />
+      <Event Name="RcvReqChStUpd" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="ChannelIsSent" Comment="Execution Confirmation" />
+      <Event Name="update_statuses_to_partner">
+        <With Var="ChanDataToSend" />
+        <With Var="w_s_val" />
+        <With Var="Preempted_val" />
+        <With Var="w_r_val" />
+      </Event>
+      <Event Name="ChannelPreempted" />
+      <Event Name="ReqChStUpd" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="DataIn" Type="BOOL" />
+      <VarDeclaration Name="Part_r_s" Type="STRING" />
+      <VarDeclaration Name="Part_r_r" Type="STRING" />
+      <VarDeclaration Name="Part_preempted" Type="STRING" />
+      <VarDeclaration Name="HasData" Type="BOOL" />
+      <VarDeclaration Name="WithCSIFB" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="ChanDataToSend" Type="BOOL" />
+      <VarDeclaration Name="w_s_val" Type="STRING" InitialValue="'0'" />
+      <VarDeclaration Name="Preempted_val" Type="STRING" InitialValue="'0'" />
+      <VarDeclaration Name="w_r_val" Type="STRING" InitialValue="'0'" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <Attribute Name="FBType.Basic.Algorithm.Order" Value="Update_Copy_Partner_Statuses,Update_Copy_Partner_Preempted_Status,Update_Copy_Partner_Statuses_Preempt,SendStatuses,Clear_Waiting_Confirmation,Send_WithData,Send_NoData,reset_statuses,Reset_Statuses_Preempt,UpdChStAlg" />
+    <InternalVars>
+      <VarDeclaration Name="Part_r_s_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="Part_r_r_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="Part_preempted_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="w_s" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="w_r" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="data_buffer" Type="BOOL" />
+      <VarDeclaration Name="Chan_Preempted_Status" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="Part_r_s_localcopy_other" Type="INT" />
+      <VarDeclaration Name="Part_r_r_localcopy_other" Type="INT" />
+      <VarDeclaration Name="Part_preempted_localcopy_other" Type="INT" />
+      <VarDeclaration Name="previous_w_s" Type="INT" />
+      <VarDeclaration Name="WaitingConfirmation" Type="BOOL" InitialValue="FALSE" />
+      <VarDeclaration Name="WithCSIFBStat" Type="BOOL" InitialValue="FALSE" />
+    </InternalVars>
+    <ECC>
+      <ECState Name="START" Comment="Initial State" x="1170.608" y="1865.745" />
+      <ECState Name="StartSend_WithData" Comment="Normal execution" x="1423.933" y="796.8459">
+        <ECAction Algorithm="Send_WithData" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="Preempt" x="2850.778" y="3790.558">
+        <ECAction Algorithm="Reset_Statuses_Preempt" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="BLOCKED" x="3987.667" y="2505.381" />
+      <ECState Name="Partner_Statuses_Init" x="4371.983" y="3351.121">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses" />
+      </ECState>
+      <ECState Name="Partner_Statuses_Uninit" x="5580.746" y="1223.644">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses" />
+      </ECState>
+      <ECState Name="StartSend_NoData" x="3650.666" y="729.0479">
+        <ECAction Algorithm="Send_NoData" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="WaitTransmissionConfirmed" x="3912.667" y="1379.333" />
+      <ECState Name="Clear_Wait_Confirmation" x="3909.667" y="2003">
+        <ECAction Algorithm="Clear_Waiting_Confirmation" />
+      </ECState>
+      <ECState Name="ChanPreempted" x="1245.429" y="2687.962">
+        <ECAction Output="ChannelPreempted" />
+      </ECState>
+      <ECState Name="ChanSentInd" x="1596" y="2317.003">
+        <ECAction Algorithm="reset_statuses" Output="ChannelIsSent" />
+      </ECState>
+      <ECState Name="WaitConfirmation" x="2136" y="3516.74" />
+      <ECState Name="ReTRNSSt" x="5694.776" y="2579.048">
+        <ECAction Algorithm="UpdChStAlg" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="WaitForReTRNSCnf" x="5734.887" y="3091.429" />
+      <ECState Name="STARTING" x="1282.428" y="1474">
+        <ECAction Output="ReqChStUpd" />
+      </ECState>
+      <ECState Name="STARTED" x="2667.428" y="1774" />
+      <ECTransition Source="STARTED" Destination="StartSend_WithData" Condition="REQ AND HasData" x="1971.336" y="1282.286">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="527.3767,352.1436,448.0544,288.4764" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="Preempt" Condition="Preempt" x="2801.375" y="3048.812">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="709.1666,698.3333,698.6367,870.4948" />
+      </ECTransition>
+      <ECTransition Source="WaitConfirmation" Destination="ChanPreempted" Condition="Confirmed_Transmission" x="1520.727" y="3179.622">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="418,872.1851,332.9208,727.3978" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="Preempt" Condition="Preempt" x="3300.529" y="3294.102">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="817.5997,838.8631,812.7705,832.543" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="Partner_Statuses_Init" Condition="Partner_Statuses_Change" x="4491.973" y="3085.32">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1138.402,769.1072,1148.909,799.7311" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Init" Destination="BLOCKED" Condition="Part_preempted_localcopy=0" x="3990.74" y="2831.735">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="931.3715,725.4553,1035.266,674.3259" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Init" Destination="Preempt" Condition="Preempt OR (Part_preempted_localcopy&gt;0)" x="3754.347" y="3662.437">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="966.6726,904.7582,930.6316,937.909" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="Partner_Statuses_Uninit" Condition="Partner_Statuses_Change" x="4359.394" y="1561.269">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1037.615,389.3123,1177.551,399.4087" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Uninit" Destination="STARTED" Condition="Part_preempted_localcopy=0 AND WaitingConfirmation=FALSE" x="4270.853" y="1834.274">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1240.806,479.5538,909.0764,486.6712" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Uninit" Destination="Preempt" Condition="Preempt OR (Part_preempted_localcopy&gt;0)" x="5741.631" y="2061.097">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1582.955,437.4378,1527.7,518.7768" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="StartSend_NoData" Condition="REQ AND (NOT (HasData))" x="3145.036" y="1011.144">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="805.8333,216.4389,770.9148,249.0701" />
+      </ECTransition>
+      <ECTransition Source="WaitTransmissionConfirmed" Destination="Clear_Wait_Confirmation" Condition="Confirmed_Transmission" x="3858.194" y="1738.995">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="981.6598,412.9022,942.5729,464.567" />
+      </ECTransition>
+      <ECTransition Source="StartSend_WithData" Destination="WaitTransmissionConfirmed" Condition="WithCSIFBStat" x="2657.15" y="1029.955">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="568,240,748.6596,265.2886" />
+      </ECTransition>
+      <ECTransition Source="StartSend_NoData" Destination="WaitTransmissionConfirmed" Condition="WithCSIFBStat" x="3833.037" y="1011.623">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="950.8977,226.3576,970.8513,272.3594" />
+      </ECTransition>
+      <ECTransition Source="WaitTransmissionConfirmed" Destination="Partner_Statuses_Uninit" Condition="Partner_Statuses_Change" x="4737.519" y="997.6946">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1147.81,232.3165,1222.117,224.5955" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Uninit" Destination="WaitTransmissionConfirmed" Condition="Part_preempted_localcopy=0 AND WaitingConfirmation=TRUE" x="4842.504" y="1198.037">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1263.047,290.5671,1182.481,298.762" />
+      </ECTransition>
+      <ECTransition Source="Clear_Wait_Confirmation" Destination="BLOCKED" Condition="1" x="4041.024" y="2246.315">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1014.938,548.9311,1016.025,572.9137" />
+      </ECTransition>
+      <ECTransition Source="ChanSentInd" Destination="STARTED" Condition="1" x="2200.311" y="1945.127">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="522.3338,497.0112,596.6042,459.928" />
+      </ECTransition>
+      <ECTransition Source="ChanPreempted" Destination="STARTED" Condition="1" x="1689.777" y="1761.551">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="308.9656,400.0187,505.3902,409.7648" />
+      </ECTransition>
+      <ECTransition Source="WaitTransmissionConfirmed" Destination="Preempt" Condition="Preempt" x="3097.99" y="2731.514">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="730,642.1851,774,748" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="ChanSentInd" Condition="w_s=w_r" x="2618.262" y="2536.771">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="793.8537,655.9109,492,627" />
+      </ECTransition>
+      <ECTransition Source="StartSend_WithData" Destination="Clear_Wait_Confirmation" Condition="NOT WithCSIFBStat" x="2654.087" y="1395.481">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="584,302,741,395" />
+      </ECTransition>
+      <ECTransition Source="StartSend_NoData" Destination="Clear_Wait_Confirmation" Condition="NOT WithCSIFBStat" x="3398.58" y="1517.506">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="767,349,879,435" />
+      </ECTransition>
+      <ECTransition Source="Preempt" Destination="WaitConfirmation" Condition="WithCSIFBStat" x="2484.408" y="3734.626">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="641.7781,945.4728,604.9162,931.3517" />
+      </ECTransition>
+      <ECTransition Source="Preempt" Destination="ChanPreempted" Condition="NOT WithCSIFBStat" x="2069.999" y="3046.87">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="560,772.1851,468,719.1851" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="ReTRNSSt" Condition="RcvReqChStUpd" x="4845.864" y="2462.401">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1155.335,608.5067,1268.74,613.8703" />
+      </ECTransition>
+      <ECTransition Source="ReTRNSSt" Destination="BLOCKED" Condition="NOT WithCSIFBStat" x="4838.36" y="2625.435">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1266.389,663.2146,1152.683,658.7371" />
+      </ECTransition>
+      <ECTransition Source="ReTRNSSt" Destination="WaitForReTRNSCnf" Condition="WithCSIFBStat" x="5821.595" y="2820.409">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1462.804,684.0836,1459.21,723.6496" />
+      </ECTransition>
+      <ECTransition Source="WaitForReTRNSCnf" Destination="BLOCKED" Condition="Confirmed_Transmission" x="4937.238" y="2890.603">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1311.547,750.9133,1183.625,709.6513" />
+      </ECTransition>
+      <ECTransition Source="START" Destination="STARTING" Condition="INIT" x="1185.888" y="1676.414">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="290.8903,431.6185,298.0104,407.6787" />
+      </ECTransition>
+      <ECTransition Source="STARTING" Destination="STARTED" Condition="1" x="1948.191" y="1604.031">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="437.5,402.5,530,396.25" />
+      </ECTransition>
+    </ECC>
+    <Algorithm Name="Send_WithData" Comment="Normally executed algorithm">
+      <ST Text="  w_s:=w_s+1;&#xD;&#xA;	previous_w_s:=w_s;&#xD;&#xA;	data_buffer:=DataIn;&#xD;&#xA;	w_s_val:= INT_TO_STRING(w_s);&#xD;&#xA;	w_r_val:=INT_TO_STRING (w_r);&#xD;&#xA;	Preempted_val:= INT_TO_STRING  (Chan_Preempted_Status);&#xD;&#xA;	ChanDataToSend:=data_buffer;&#xD;&#xA;	WaitingConfirmation:=TRUE;&#xD;&#xA;	WithCSIFBStat:=WithCSIFB;" />
+    </Algorithm>
+    <Algorithm Name="Reset_Statuses_Preempt">
+      <ST Text="Preempted_val:= INT_TO_STRING (Chan_Preempted_Status+1);&#xD;&#xA;&#xD;&#xA;w_s:=0;&#xD;&#xA;w_r:=0;&#xD;&#xA;&#xD;&#xA;Chan_Preempted_Status:=0;&#xD;&#xA;Part_preempted_localcopy:=0;&#xD;&#xA;WaitingConfirmation:=FALSE;&#xD;&#xA;&#xD;&#xA;w_s_val:= INT_TO_STRING (w_s);&#xD;&#xA;w_r_val:= INT_TO_STRING (w_r);" />
+    </Algorithm>
+    <Algorithm Name="Update_Copy_Partner_Statuses">
+      <ST Text="Part_r_r_localcopy:=STRING_TO_INT(Part_r_r);&#xD;&#xA;Part_r_s_localcopy:=STRING_TO_INT(Part_r_s);&#xD;&#xA;Part_preempted_localcopy:=STRING_TO_INT(Part_preempted);&#xD;&#xA;w_r:=Part_r_s_localcopy;&#xD;&#xA;w_s:=Part_r_r_localcopy;&#xD;&#xA;" />
+    </Algorithm>
+    <Algorithm Name="Update_Copy_Partner_Preempted_Status">
+      <ST Text="Part_preempted_localcopy:=STRING_TO_INT(Part_preempted);" />
+    </Algorithm>
+    <Algorithm Name="SendStatuses">
+      <ST Text="ChanDataToSend:=data_buffer;&#xD;&#xA;w_s_val:=INT_TO_STRING(w_s);&#xD;&#xA;w_r_val:=INT_TO_STRING(w_r);&#xD;&#xA;Preempted_val:= INT_TO_STRING (Chan_Preempted_Status);" />
+    </Algorithm>
+    <Algorithm Name="Update_Copy_Partner_Statuses_Preempt">
+      <ST Text="Part_r_r_localcopy:=STRING_TO_INT(Part_r_r);&#xD;&#xA;Part_r_s_localcopy:=STRING_TO_INT(Part_r_s);&#xD;&#xA;Part_preempted_localcopy:=STRING_TO_INT(Part_preempted);&#xD;&#xA;w_r:=Part_r_s_localcopy;" />
+    </Algorithm>
+    <Algorithm Name="reset_statuses">
+      <ST Text="w_s:=0;&#xD;&#xA;w_r:=0;&#xD;&#xA;&#xD;&#xA;Chan_Preempted_Status:=0;&#xD;&#xA;Part_preempted_localcopy:=0;&#xD;&#xA;WaitingConfirmation:=FALSE;&#xD;&#xA;w_r_val:= '0';&#xD;&#xA;w_s_val:='0';&#xD;&#xA;Preempted_val:='0';" />
+    </Algorithm>
+    <Algorithm Name="Send_NoData">
+      <ST Text="previous_w_s:=w_s;&#xD;&#xA;	w_s:=w_s+1;&#xD;&#xA;	previous_w_s:=w_s;&#xD;&#xA;	w_s_val:= INT_TO_STRING (w_s);&#xD;&#xA;	w_r_val:= INT_TO_STRING (w_r);&#xD;&#xA;	Preempted_val:=INT_TO_STRING (Chan_Preempted_Status);&#xD;&#xA;	&#xD;&#xA;	WaitingConfirmation:=TRUE;&#xD;&#xA;	WithCSIFBStat:=WithCSIFB;" />
+    </Algorithm>
+    <Algorithm Name="Clear_Waiting_Confirmation">
+      <ST Text="WaitingConfirmation:=FALSE;" />
+    </Algorithm>
+    <Algorithm Name="UpdChStAlg">
+      <ST Text="w_s_val:= INT_TO_STRING(w_s);&#xD;&#xA;	w_r_val:=INT_TO_STRING (w_r);&#xD;&#xA;	Preempted_val:= INT_TO_STRING  (Chan_Preempted_Status);&#xD;&#xA;	ChanDataToSend:=data_buffer;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

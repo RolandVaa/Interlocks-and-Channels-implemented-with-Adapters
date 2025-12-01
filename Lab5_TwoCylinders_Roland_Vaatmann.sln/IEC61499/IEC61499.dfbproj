@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+  <PropertyGroup>
+    <ProjectGuid>{78C2A375-B7E6-41F0-9090-5EB82A0305B9}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Main</RootNamespace>
+    <AssemblyName>IEC61499</AssemblyName>
+    <NxtVersion>22.1.0.0</NxtVersion>
+    <Platform Condition=" '$(Platform)' == '' ">Windows</Platform>
+    <CreateHMI>false</CreateHMI>
+    <HMIProject>HMI</HMIProject>
+    <CATInstancesHaveIds>true</CATInstancesHaveIds>
+    <ProjectType>IEC61499</ProjectType>
+    <CreateHMICF>false</CreateHMICF>
+    <VerboseDeploy>False</VerboseDeploy>
+    <DeployOnlyChanges>True</DeployOnlyChanges>
+    <DeployConnectionTimeout>60</DeployConnectionTimeout>
+    <DeployAnswerTimeout>10</DeployAnswerTimeout>
+    <DeployPreConnectWait>2</DeployPreConnectWait>
+    <ArchiveLinkServiceTimeout>30</ArchiveLinkServiceTimeout>
+    <CheckGenericInstances>False</CheckGenericInstances>
+    <ConvertStringValues>False</ConvertStringValues>
+    <HardwareConfigurationMigrationVersion>1</HardwareConfigurationMigrationVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Default\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <IntermediateOutputPath>obj\Default\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Default\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <IntermediateOutputPath>obj\Default\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows' ">
+    <Version>1.0</Version>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'Windows' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(SharpDevelopBinPath)\NxtControl.Build.61499.Targets" />
+  <ItemGroup>
+    <Compile Include="AdapterCyl.adp">
+      <IEC61499Type>Adapter</IEC61499Type>
+    </Compile>
+    <Compile Include="AdpChan.adp">
+      <IEC61499Type>Adapter</IEC61499Type>
+    </Compile>
+    <Compile Include="BoolAdp.adp">
+      <IEC61499Type>Adapter</IEC61499Type>
+    </Compile>
+    <Compile Include="BUTTONAdp\BUTTONAdp.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="BUTTONAdp\BUTTONAdp_HMI.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+      <DependentUpon>BUTTONAdp\BUTTONAdp.fbt</DependentUpon>
+      <Usage>Private</Usage>
+    </Compile>
+    <Compile Include="ChanRcvBool.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="ChanSendBool.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControlAdp.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControlAdpOL.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControlIL.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControlILAdpOL.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControlILChanOL.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="DataType\DataType1.dt">
+      <IEC61499Type>DataType</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylAdpOL\HCylAdpOL.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylAdpOL\HCylAdpOL_HMI.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+      <DependentUpon>HCylAdpOL\HCylAdpOL.fbt</DependentUpon>
+      <Usage>Private</Usage>
+    </Compile>
+    <Compile Include="HCylAdp\HCylAdp.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylAdp\HCylAdp_HMI.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+      <DependentUpon>HCylAdp\HCylAdp.fbt</DependentUpon>
+      <Usage>Private</Usage>
+    </Compile>
+    <Compile Include="InputChannelV2BOOL.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="OutputChannelV2BOOL.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylAdpOL\VCylAdpOL.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylAdpOL\VCylAdpOL_HMI.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+      <DependentUpon>VCylAdpOL\VCylAdpOL.fbt</DependentUpon>
+      <Usage>Private</Usage>
+    </Compile>
+    <Compile Include="VCylAdp\VCylAdp.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylAdp\VCylAdp_HMI.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+      <DependentUpon>VCylAdp\VCylAdp.fbt</DependentUpon>
+      <Usage>Private</Usage>
+    </Compile>
+    <None Include="BUTTONAdp\BUTTONAdp.cfg">
+      <DependentUpon>BUTTONAdp.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="BUTTON\BUTTON.cfg">
+      <DependentUpon>BUTTON.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="Configuration\Certificates\Certificates.xml" />
+    <None Include="HCylAdpOL\HCylAdpOL.cfg">
+      <DependentUpon>HCylAdpOL.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="HCylAdp\HCylAdp.cfg">
+      <DependentUpon>HCylAdp.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="HCylinderLS\HCylinderLS.cfg">
+      <DependentUpon>HCylinderLS.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="HCylinderLS\HCylinderLS.doc.xml">
+      <DependentUpon>HCylinderLS.fbt</DependentUpon>
+    </None>
+    <None Include="HCylinderSA\HCylinderSA.cfg">
+      <DependentUpon>HCylinderSA.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="HCylinder\HCylinder.cfg">
+      <DependentUpon>HCylinder.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="IEC61499.iecproj" />
+    <None Include="Project.doc.xml" />
+    <None Include="Sensor\Sensor.cfg">
+      <DependentUpon>Sensor.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="SnapshotCompiles\{189A0BC8-2C3C-4C63-90F1-79D7AB22A75A}\Default\IEC61499.snapshot" />
+    <None Include="SnapshotCompiles\{D1959A10-73E0-43BD-BB95-FEBCF55DC5BD}\Default\IEC61499.snapshot" />
+    <None Include="SnapshotCompiles\{D7383B65-D8B7-4364-A89E-71BC0CF58F9F}\Default\IEC61499.snapshot" />
+    <None Include="System\snapshot.xml">
+      <DependentUpon>System.sys</DependentUpon>
+    </None>
+    <None Include="System\System.cfg">
+      <DependentUpon>System.sys</DependentUpon>
+      <IEC61499Type>System</IEC61499Type>
+    </None>
+    <None Include="System\System.Device.Properties.xml">
+      <DependentUpon>System.sys</DependentUpon>
+    </None>
+    <None Include="System\System.opcuaclient.xml">
+      <DependentUpon>System.sys</DependentUpon>
+    </None>
+    <None Include="System\System.Topology.Binding.xml">
+      <DependentUpon>System.sys</DependentUpon>
+    </None>
+    <None Include="Valve\Valve.cfg">
+      <DependentUpon>Valve.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="VCylAdpOL\VCylAdpOL.cfg">
+      <DependentUpon>VCylAdpOL.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="VCylAdp\VCylAdp.cfg">
+      <DependentUpon>VCylAdp.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="VCylinderLS\VCylinderLS.cfg">
+      <DependentUpon>VCylinderLS.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="VCylinderLS\VCylinderLS.doc.xml">
+      <DependentUpon>VCylinderLS.fbt</DependentUpon>
+    </None>
+    <None Include="VCylinderSA\VCylinderSA.cfg">
+      <DependentUpon>VCylinderSA.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <None Include="VCylinder\VCylinder.cfg">
+      <DependentUpon>VCylinder.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </None>
+    <Compile Include="BUTTON\BUTTON.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="BUTTON\BUTTON_HMI.fbt">
+      <DependentUpon>BUTTON\BUTTON.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="ChangeDetect.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="ConvertToForce.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="CylControl.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinderLS\HCylinderLS.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinderLS\HCylinderLS_HMI.fbt">
+      <DependentUpon>HCylinderLS\HCylinderLS.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinderSA\HCylinderSA.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinderSA\HCylinderSA_HMI.fbt">
+      <DependentUpon>HCylinderSA\HCylinderSA.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinder\HCylinder.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="HCylinder\HCylinder_HMI.fbt">
+      <DependentUpon>HCylinder\HCylinder.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="InRange.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="integEC.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="PULSE.fbt">
+      <IEC61499Type>Composite</IEC61499Type>
+    </Compile>
+    <Compile Include="Sensor\Sensor.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="Sensor\Sensor_HMI.fbt">
+      <DependentUpon>Sensor\Sensor.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="System\System.sys">
+      <IEC61499Type>System</IEC61499Type>
+    </Compile>
+    <Compile Include="ValveControl.fbt">
+      <IEC61499Type>Basic</IEC61499Type>
+    </Compile>
+    <Compile Include="Valve\Valve.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="Valve\Valve_HMI.fbt">
+      <DependentUpon>Valve\Valve.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinderLS\VCylinderLS.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinderLS\VCylinderLS_HMI.fbt">
+      <DependentUpon>VCylinderLS\VCylinderLS.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinderSA\VCylinderSA.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinderSA\VCylinderSA_HMI.fbt">
+      <DependentUpon>VCylinderSA\VCylinderSA.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinder\VCylinder.fbt">
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+    <Compile Include="VCylinder\VCylinder_HMI.fbt">
+      <DependentUpon>VCylinder\VCylinder.fbt</DependentUpon>
+      <IEC61499Type>CAT</IEC61499Type>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration" />
+    <Folder Include="Configuration\Certificates" />
+    <Folder Include="License" />
+    <Folder Include="Log" />
+    <Folder Include="SnapshotCompiles" />
+    <Folder Include="SnapshotCompiles\{189A0BC8-2C3C-4C63-90F1-79D7AB22A75A}" />
+    <Folder Include="SnapshotCompiles\{189A0BC8-2C3C-4C63-90F1-79D7AB22A75A}\Default" />
+    <Folder Include="SnapshotCompiles\{D1959A10-73E0-43BD-BB95-FEBCF55DC5BD}" />
+    <Folder Include="SnapshotCompiles\{D1959A10-73E0-43BD-BB95-FEBCF55DC5BD}\Default" />
+    <Folder Include="SnapshotCompiles\{D7383B65-D8B7-4364-A89E-71BC0CF58F9F}" />
+    <Folder Include="SnapshotCompiles\{D7383B65-D8B7-4364-A89E-71BC0CF58F9F}\Default" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BUTTONAdp\BUTTONAdp_CAT.opcua.xml">
+      <DependentUpon>BUTTONAdp.fbt</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+    <Content Include="HCylAdpOL\HCylAdpOL_CAT.offline.xml">
+      <DependentUpon>HCylAdpOL.fbt</DependentUpon>
+      <Plugin>OfflineParametrizationEditor</Plugin>
+      <IEC61499Type>CAT_OFFLINE</IEC61499Type>
+    </Content>
+    <Content Include="HCylAdpOL\HCylAdpOL_CAT.opcua.xml">
+      <DependentUpon>HCylAdpOL.fbt</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+    <Content Include="HCylAdp\HCylAdp_CAT.offline.xml">
+      <DependentUpon>HCylAdp.fbt</DependentUpon>
+      <Plugin>OfflineParametrizationEditor</Plugin>
+      <IEC61499Type>CAT_OFFLINE</IEC61499Type>
+    </Content>
+    <Content Include="HCylAdp\HCylAdp_CAT.opcua.xml">
+      <DependentUpon>HCylAdp.fbt</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+    <Content Include="System\System.opcua.xml">
+      <DependentUpon>System.sys</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+    <Content Include="VCylAdpOL\VCylAdpOL_CAT.offline.xml">
+      <DependentUpon>VCylAdpOL.fbt</DependentUpon>
+      <Plugin>OfflineParametrizationEditor</Plugin>
+      <IEC61499Type>CAT_OFFLINE</IEC61499Type>
+    </Content>
+    <Content Include="VCylAdpOL\VCylAdpOL_CAT.opcua.xml">
+      <DependentUpon>VCylAdpOL.fbt</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+    <Content Include="VCylAdp\VCylAdp_CAT.offline.xml">
+      <DependentUpon>VCylAdp.fbt</DependentUpon>
+      <Plugin>OfflineParametrizationEditor</Plugin>
+      <IEC61499Type>CAT_OFFLINE</IEC61499Type>
+    </Content>
+    <Content Include="VCylAdp\VCylAdp_CAT.opcua.xml">
+      <DependentUpon>VCylAdp.fbt</DependentUpon>
+      <Plugin>OPCUAConfigurator</Plugin>
+      <IEC61499Type>CAT_OPCUA</IEC61499Type>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Runtime.Base">
+      <Version>22.1.0.17</Version>
+    </Reference>
+    <Reference Include="SE.DPAC">
+      <Version>22.1.0.24</Version>
+    </Reference>
+    <Reference Include="SE.Standard">
+      <Version>22.1.0.9</Version>
+    </Reference>
+  </ItemGroup>
+</Project>

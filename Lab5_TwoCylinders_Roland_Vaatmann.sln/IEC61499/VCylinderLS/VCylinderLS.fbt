@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="D77E1152144E4861" Name="VCylinderLS" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="4" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="valvya" Date="8/12/2014" Remarks="template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request">
+        <With Var="EXTEND" />
+        <With Var="RETRACT" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="EXTEND" />
+        <With Var="RETRACT" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm">
+        <With Var="RETRACTED" />
+        <With Var="EXTENDED" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation">
+        <With Var="RETRACTED" />
+        <With Var="EXTENDED" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="EXTEND" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="RETRACT" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="RETRACTED" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="EXTENDED" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="2" Name="FB2" Type="ValveControl" x="1600" y="580" Namespace="Main" />
+    <FB ID="3" Name="FB3" Type="ConvertToForce" x="820" y="580" Namespace="Main" />
+    <FB ID="4" Name="FB1" Type="VCylinderSA" x="2400" y="600" Namespace="Main">
+      <Parameter Name="Label" Value="'Vertical'" />
+    </FB>
+    <Input Name="INIT" x="20" y="431.8542" Type="Event" />
+    <Input Name="REQ" x="40" y="571.8542" Type="Event" />
+    <Input Name="EXTEND" x="20" y="751.8542" Type="Data" />
+    <Input Name="RETRACT" x="-1.525879E-05" y="871.8541" Type="Data" />
+    <Output Name="INITO" x="2960" y="471.8542" Type="Event" />
+    <Output Name="CNF" x="3020" y="651.8542" Type="Event" />
+    <Output Name="RETRACTED" x="3008.292" y="811.8542" Type="Data" />
+    <Output Name="EXTENDED" x="3048.292" y="891.8542" Type="Data" />
+    <EventConnections>
+      <Connection Source="FB2.INITO" Destination="INITO" dx1="59.896" />
+      <Connection Source="FB3.CNF" Destination="FB2.REQ" dx1="60" />
+      <Connection Source="REQ" Destination="FB3.REQ" dx1="40" />
+      <Connection Source="INIT" Destination="FB2.INIT" dx1="1130.833">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="FB2.CNF" Destination="FB1.REQ" dx1="79.896" />
+      <Connection Source="FB1.CHG" Destination="CNF" dx1="86.521" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FB3.FORCE" Destination="FB2.sp" dx1="40" />
+      <Connection Source="RETRACT" Destination="FB3.RETRACT" dx1="40" />
+      <Connection Source="EXTEND" Destination="FB3.EXTEND" dx1="46.60422" />
+      <Connection Source="FB1.StartSW" Destination="RETRACTED" dx1="66.521" />
+      <Connection Source="FB1.EndSW" Destination="EXTENDED" dx1="46.521" />
+      <Connection Source="FB2.valvePUSH" Destination="FB1.pv1" dx1="99.896" />
+      <Connection Source="FB2.valvePOP" Destination="FB1.pv2" dx1="119.896" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

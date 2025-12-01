@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="be490cad-0fa3-46cf-b89c-33333483dd90" Name="InputChannelV2BOOL" Comment="Basic Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="0" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Atmojo" Date="12/03/2018" Remarks="Template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" />
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="WithCSIFB" />
+      </Event>
+      <Event Name="Preempt" />
+      <Event Name="Partner_Statuses_Change">
+        <With Var="DataIn" />
+        <With Var="Part_w_s" />
+        <With Var="Part_w_r" />
+        <With Var="Part_Preempted" />
+      </Event>
+      <Event Name="Confirmed_Transmission" />
+      <Event Name="RcvReqChStUpd" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="ChannelReceived" Comment="Execution Confirmation">
+        <With Var="DataOut" />
+      </Event>
+      <Event Name="update_statuses_to_partner">
+        <With Var="r_s_val" />
+        <With Var="Preempted_val" />
+        <With Var="r_r_val" />
+      </Event>
+      <Event Name="ChannelPreempted" />
+      <Event Name="ReqChStUpd" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="DataIn" Type="BOOL" />
+      <VarDeclaration Name="Part_w_s" Type="STRING" />
+      <VarDeclaration Name="Part_w_r" Type="STRING" />
+      <VarDeclaration Name="Part_Preempted" Type="STRING" />
+      <VarDeclaration Name="WithCSIFB" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="r_s_val" Type="STRING" InitialValue="'0'" />
+      <VarDeclaration Name="Preempted_val" Type="STRING" InitialValue="'0'" />
+      <VarDeclaration Name="r_r_val" Type="STRING" InitialValue="'0'" />
+      <VarDeclaration Name="DataOut" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <Attribute Name="FBType.Basic.Algorithm.Order" Value="Update_Copy_Partner_Statuses_Data,Update_Copy_Partner_Preempted_Status,Preempt_alg,Update_statuses_to_partner_alg,GetWithCSIFBAlg,UpdChSt,ResetStatuses,OutputData" />
+    <InternalVars>
+      <VarDeclaration Name="Part_w_s_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="Part_w_r_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="Part_preempted_localcopy" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="r_s" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="r_r" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="data_buffer" Type="BOOL" />
+      <VarDeclaration Name="Chan_Preempted_Status" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="reqCount" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="ChanIsUsed" Type="BOOL" InitialValue="FALSE" />
+      <VarDeclaration Name="WithCSIFBStat" Type="BOOL" InitialValue="FALSE" />
+    </InternalVars>
+    <ECC>
+      <ECState Name="START" Comment="Initial State" x="1342.609" y="1662.349" />
+      <ECState Name="Preempt" x="2873.207" y="2745.008">
+        <ECAction Algorithm="Preempt_alg" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="BLOCKED" x="3770.284" y="1305.047" />
+      <ECState Name="Partner_Statuses_Change" x="5101.158" y="1453.628">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses_Data" />
+      </ECState>
+      <ECState Name="ReceiveSYNC" x="5107.114" y="1931.714">
+        <ECAction Algorithm="Update_statuses_to_partner_alg" Output="update_statuses_to_partner" />
+        <ECAction Algorithm="OutputData" Output="ChannelReceived" />
+      </ECState>
+      <ECState Name="Partner_Statuses_Change_Uninit" x="3714.476" y="520.1515">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses_Data" />
+      </ECState>
+      <ECState Name="WaitForTransmission" x="4689" y="2237.238" />
+      <ECState Name="WaitForTransmissionPreempted" x="2344" y="1986.54" />
+      <ECState Name="Preempted" x="1928.762" y="1632.919">
+        <ECAction Output="ChannelPreempted" />
+      </ECState>
+      <ECState Name="GetWithCSIFB" x="4043.048" y="744.3174">
+        <ECAction Algorithm="GetWithCSIFBAlg" />
+      </ECState>
+      <ECState Name="STARTING" x="1307.428" y="1304">
+        <ECAction Output="ReqChStUpd" />
+      </ECState>
+      <ECState Name="STARTED" x="3064.761" y="1362.667" />
+      <ECState Name="RcvUpdPartnerNoBLCKD" x="1296.318" y="425.3333">
+        <ECAction Algorithm="UpdChSt" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="RcvUpdPartnerBLCKD" x="5390.762" y="764.2222">
+        <ECAction Algorithm="UpdChSt" Output="update_statuses_to_partner" />
+      </ECState>
+      <ECState Name="WaitForUpdCnfNOBLKCD" x="2321.207" y="752.4444" />
+      <ECState Name="WaitForUpdCnfBLCKD" x="5575.096" y="1121.333">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses_Data" />
+      </ECState>
+      <ECState Name="Partner_Statuses_Change_UninitREQ" x="3451.619" y="217.2943">
+        <ECAction Algorithm="Update_Copy_Partner_Statuses_Data" />
+      </ECState>
+      <ECState Name="Reset" x="4714.334" y="2690.047">
+        <ECAction Algorithm="ResetStatuses" />
+      </ECState>
+      <ECTransition Source="STARTED" Destination="Preempt" Condition="Preempt OR (Part_preempted_localcopy&gt;0)" x="2960.618" y="2232.151">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="761.4989,516.893,717.5855,628.9011" />
+      </ECTransition>
+      <ECTransition Source="WaitForTransmissionPreempted" Destination="Preempted" Condition="Confirmed_Transmission" x="2326.284" y="1810.767">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="619.7355,456.2905,562.8716,449.2661" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="Preempt" Condition="Preempt" x="3180.883" y="2420.454">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="790.9738,628.7467,772.1457,647.3844" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="Partner_Statuses_Change" Condition="Partner_Statuses_Change" x="4314.997" y="1411.812">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1054.327,352.2892,1098.601,356.843" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Change" Destination="ReceiveSYNC" Condition="r_r&gt;r_s AND Part_preempted_localcopy=0" x="5298.396" y="1705.851">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1356.426,393.3505,1307.128,461.7717" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Change" Destination="BLOCKED" Condition="r_r&lt;=r_s AND Part_preempted_localcopy=0" x="4333.417" y="1689.203">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1113.622,403.1119,1050.767,484.4368" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Change" Destination="Preempt" Condition="(Part_preempted_localcopy&gt;0)" x="4124.737" y="2215.607">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1053.04,484.6032,1028.33,640.0081" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="Partner_Statuses_Change_Uninit" Condition="Partner_Statuses_Change &amp; NOT REQ" x="3208.511" y="824.4797">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="780.2965,222.123,806.3552,170.6286" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Change_Uninit" Destination="STARTED" Condition="1" x="3452.752" y="989.9469">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="925.4421,238.5409,809.1315,264.5222" />
+      </ECTransition>
+      <ECTransition Source="ReceiveSYNC" Destination="WaitForTransmission" Condition="WithCSIFBStat" x="4796.918" y="2076.011">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1211.524,513.7975,1178.524,522.7975" />
+      </ECTransition>
+      <ECTransition Source="Preempt" Destination="WaitForTransmissionPreempted" Condition="WithCSIFBStat" x="2520.367" y="2338.323">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="643.2537,611.6068,605.1202,552.9793" />
+      </ECTransition>
+      <ECTransition Source="Preempted" Destination="STARTED" Condition="1" x="2539.086" y="1453.675">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="608.6293,357.9346,670.9073,362.6917" />
+      </ECTransition>
+      <ECTransition Source="WaitForTransmission" Destination="Reset" Condition="Confirmed_Transmission" x="4687.909" y="2443.38">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1167.023,596.5505,1175.512,621.7625" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="GetWithCSIFB" Condition="REQ OR INIT" x="3588.971" y="1148.53">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="854.5255,326.7758,936.2487,261.1614" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="ReceiveSYNC" Condition="r_r&gt;r_s" x="4008.584" y="1783.839">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="972.0238,426.7975,977.0238,488.0475" />
+      </ECTransition>
+      <ECTransition Source="ReceiveSYNC" Destination="Reset" Condition="NOT WithCSIFBStat" x="5073.422" y="2495.192">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1290.499,653.281,1265.058,625.0337" />
+      </ECTransition>
+      <ECTransition Source="Preempt" Destination="Preempted" Condition="NOT WithCSIFBStat" x="1802.799" y="2229.198">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="357.8409,617.8395,456.9386,501.3748" />
+      </ECTransition>
+      <ECTransition Source="GetWithCSIFB" Destination="BLOCKED" Condition="1" x="3890.42" y="1016.173">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="971.921,230.7057,971.836,275.9625" />
+      </ECTransition>
+      <ECTransition Source="START" Destination="STARTING" Condition="INIT" x="1218.5" y="1487.439">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="300.4014,382.7977,299.1519,361.6323" />
+      </ECTransition>
+      <ECTransition Source="STARTING" Destination="STARTED" Condition="1" x="1881.647" y="1508.028">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="400.0538,412.4221,500.2164,365.0855" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="RcvUpdPartnerNoBLCKD" Condition="RcvReqChStUpd" x="1282.545" y="857.1812">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="315.9682,242.2222,197.1164,178.9164" />
+      </ECTransition>
+      <ECTransition Source="RcvUpdPartnerNoBLCKD" Destination="STARTED" Condition="NOT WithCSIFBStat" x="1852.127" y="878.5001">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="367.0793,178.8889,514.8571,257.7778" />
+      </ECTransition>
+      <ECTransition Source="BLOCKED" Destination="RcvUpdPartnerBLCKD" Condition="RcvReqChStUpd" x="4473.639" y="932.5062">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1038.402,233.7684,1202.046,215.4633" />
+      </ECTransition>
+      <ECTransition Source="RcvUpdPartnerBLCKD" Destination="BLOCKED" Condition="NOT WithCSIFBStat" x="4611.628" y="1107.662">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1206.061,264.1947,1099.237,299.8407" />
+      </ECTransition>
+      <ECTransition Source="RcvUpdPartnerNoBLCKD" Destination="WaitForUpdCnfNOBLKCD" Condition="WithCSIFBStat" x="1940.66" y="538.9127">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="463.2351,123.5319,506.5804,138.3667" />
+      </ECTransition>
+      <ECTransition Source="WaitForUpdCnfNOBLKCD" Destination="STARTED" Condition="Confirmed_Transmission" x="2742.127" y="997.1132">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="660.0661,223.0834,712.3789,265.3994" />
+      </ECTransition>
+      <ECTransition Source="RcvUpdPartnerBLCKD" Destination="WaitForUpdCnfBLCKD" Condition="WithCSIFBStat" x="5556.484" y="907.0558">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1385.855,213.2867,1396.887,234.2876" />
+      </ECTransition>
+      <ECTransition Source="WaitForUpdCnfBLCKD" Destination="BLOCKED" Condition="Confirmed_Transmission" x="4620.498" y="1298.904">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="1208.241,323.6273,1097.824,334.9696" />
+      </ECTransition>
+      <ECTransition Source="STARTED" Destination="Partner_Statuses_Change_UninitREQ" Condition="Partner_Statuses_Change &amp; REQ" x="2958.992" y="601.7808">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="697.8018,183.3333,749.2303,86.19048" />
+      </ECTransition>
+      <ECTransition Source="Partner_Statuses_Change_UninitREQ" Destination="GetWithCSIFB" Condition="1" x="3237.235" y="636.7397">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="762.0875,166.1905,793.5161,174.7619" />
+      </ECTransition>
+      <ECTransition Source="Reset" Destination="STARTED" Condition="1" x="3775.706" y="2186.712">
+        <Attribute Name="Configuration.Transaction.BezierPoints" Value="989.679,611.5118,885.3933,507.2261" />
+      </ECTransition>
+    </ECC>
+    <Algorithm Name="Preempt_alg">
+      <ST Text="r_s:=0;&#xD;&#xA;r_r:=0;&#xD;&#xA;&#xD;&#xA;r_r_val:=INT_TO_STRING (r_r);&#xD;&#xA;r_s_val:=INT_TO_STRING (r_s);&#xD;&#xA;Preempted_val:=INT_TO_STRING (Chan_Preempted_Status+1);" />
+    </Algorithm>
+    <Algorithm Name="Update_Copy_Partner_Statuses_Data">
+      <ST Text="Part_w_r_localcopy:=STRING_TO_INT(Part_w_r);&#xD;&#xA;Part_w_s_localcopy:=STRING_TO_INT(Part_w_s);&#xD;&#xA;Part_preempted_localcopy:=STRING_TO_INT(Part_Preempted);&#xD;&#xA;data_buffer:=DataIn;&#xD;&#xA;r_r:=Part_w_s_localcopy;&#xD;&#xA;r_s:=Part_w_r_localcopy;" />
+    </Algorithm>
+    <Algorithm Name="Update_Copy_Partner_Preempted_Status">
+      <ST Text="Part_preempted_localcopy:=STRING_TO_INT(Part_Preempted);" />
+    </Algorithm>
+    <Algorithm Name="Update_statuses_to_partner_alg">
+      <ST Text="r_s:=r_s+1;&#xD;&#xA;r_s_val:=INT_TO_STRING (r_s);&#xD;&#xA;r_r_val:=INT_TO_STRING (r_r);&#xD;&#xA;Preempted_val:= INT_TO_STRING (Chan_Preempted_Status);" />
+    </Algorithm>
+    <Algorithm Name="ResetStatuses">
+      <ST Text="data_buffer:=FALSE;&#xD;&#xA;DataOut:=FALSE;&#xD;&#xA;r_s:=0;&#xD;&#xA;r_r:=0;&#xD;&#xA;Chan_Preempted_Status:=0;&#xD;&#xA;Part_preempted_localcopy:=0;&#xD;&#xA;r_r_val:='0';&#xD;&#xA;r_s_val:='0';&#xD;&#xA;Preempted_val:='0';&#xD;&#xA;" />
+    </Algorithm>
+    <Algorithm Name="GetWithCSIFBAlg">
+      <ST Text="WithCSIFBStat:=WithCSIFB;" />
+    </Algorithm>
+    <Algorithm Name="UpdChSt">
+      <ST Text="r_s_val:=INT_TO_STRING (r_s);&#xD;&#xA;r_r_val:=INT_TO_STRING (r_r);&#xD;&#xA;Preempted_val:= INT_TO_STRING (Chan_Preempted_Status);" />
+    </Algorithm>
+    <Algorithm Name="OutputData">
+      <ST Text="DataOut:=data_buffer;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

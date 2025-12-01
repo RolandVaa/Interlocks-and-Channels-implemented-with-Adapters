@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType Name="BUTTON" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="3" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="vvya002" Date="19/11/2012" Remarks="template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request">
+        <With Var="QI" />
+        <With Var="LABEL" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm">
+        <With Var="QO" />
+        <With Var="VAL" />
+      </Event>
+      <Event Name="IND" Comment="Execution Confirmation">
+        <With Var="QO" />
+        <With Var="VAL" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="LABEL" Type="STRING" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="VAL" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="1" Name="IThis" Type="BUTTON_HMI" x="940" y="100" Namespace="Main">
+      <Parameter Name="QI" Value="TRUE" />
+    </FB>
+    <FB ID="2" Name="FB1" Type="PULSE" x="1660" y="560" Namespace="Main">
+      <Parameter Name="DTC" Value="t#100ms" />
+    </FB>
+    <FB ID="3" Name="FB2" Type="E_MERGE" x="2200" y="320" Namespace="IEC61499.Standard" />
+    <Input Name="INIT">
+      <Position>
+        <X>5</X>
+        <Y>22.9635429</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Input>
+    <Input Name="QI">
+      <Position>
+        <X>5</X>
+        <Y>92.96354</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Input Name="LABEL">
+      <Position>
+        <X>0</X>
+        <Y>122.963547</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Output Name="INITO">
+      <Position>
+        <X>540</X>
+        <Y>22.9635429</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Output>
+    <Output Name="IND">
+      <Position>
+        <X>680</X>
+        <Y>47.9635429</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Output>
+    <Output Name="QO">
+      <Position>
+        <X>700</X>
+        <Y>102.963547</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Output>
+    <Output Name="VAL">
+      <Position>
+        <X>630</X>
+        <Y>197.963547</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Output>
+    <EventConnections>
+      <Connection Source="INIT" Destination="IThis.INIT" dx1="40" />
+      <Connection Source="INIT" Destination="IThis.REQ" dx1="40.83337" />
+      <Connection Source="IThis.INITO" Destination="INITO" dx1="50" />
+      <Connection Source="IThis.CNF" Destination="FB2.EI1" dx1="60" />
+      <Connection Source="IThis.CNF" Destination="FB1.REQ" dx1="60" />
+      <Connection Source="FB1.CNF" Destination="FB2.EI2" dx1="50" />
+      <Connection Source="FB2.EO" Destination="IND" dx1="41.54175" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="LABEL" Destination="IThis.LABEL" dx1="44.20837" />
+      <Connection Source="QI" Destination="IThis.ENABLE">
+        <Points>
+          <Points>
+            <X>93.84374</X>
+            <Y>99.99999</Y>
+          </Points>
+          <Points>
+            <X>102.5</X>
+            <Y>99.99999</Y>
+          </Points>
+          <Points>
+            <X>102.5</X>
+            <Y>102.5</Y>
+          </Points>
+          <Points>
+            <X>155</X>
+            <Y>102.5</Y>
+          </Points>
+          <Points>
+            <X>155</X>
+            <Y>129.5</Y>
+          </Points>
+          <Points>
+            <X>230</X>
+            <Y>129.5</Y>
+          </Points>
+        </Points>
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="IThis.QO" Destination="QO" dx1="40" />
+      <Connection Source="FB1.RES" Destination="VAL" dx1="49.8125" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

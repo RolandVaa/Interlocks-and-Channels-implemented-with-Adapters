@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="190a191a-7cc8-4beb-b378-f6f0ab0e2587" Name="CylControlILAdpOL" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="6" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmBH" Version="0.0" Author="valeriy" Date="7/14/2023" Remarks="template" />
+  <InterfaceList>
+    <Sockets>
+      <AdapterDeclaration Name="WP" Type="BoolAdp" Namespace="Main" x="60" y="320" />
+      <AdapterDeclaration Name="CLR" Type="BoolAdp" Namespace="Main" x="620" y="1200" />
+    </Sockets>
+    <Plugs>
+      <AdapterDeclaration Name="ActSens" Type="AdapterCyl" Namespace="Main" x="1880" y="300" />
+      <AdapterDeclaration Name="IL" Type="BoolAdp" Namespace="Main" x="2120" y="1060" />
+    </Plugs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="5" Name="FB1" Type="CylControlIL" x="1220" y="300" Namespace="Main" />
+    <EventConnections>
+      <Connection Source="FB1.INITO" Destination="ActSens.INITO" />
+      <Connection Source="FB1.CNF" Destination="ActSens.CNF" />
+      <Connection Source="FB1.INITO" Destination="WP.INIT" dx1="129.2083" dx2="30" dy="-100">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="WP.CNF" Destination="FB1.REQ" dx1="50" />
+      <Connection Source="ActSens.INIT" Destination="FB1.INIT" dx1="43.771" dx2="30" dy="-110" />
+      <Connection Source="CLR.CNF" Destination="FB1.REQ" dx1="50" />
+      <Connection Source="FB1.CNF" Destination="IL.CNF" dx1="49.20825" />
+      <Connection Source="FB1.INITO" Destination="IL.INITO" dx1="49.20825" />
+      <Connection Source="IL.INIT" Destination="FB1.INIT" dx1="43.77075" dx2="30" dy="-110" />
+      <Connection Source="ActSens.REQ" Destination="FB1.REQ" dx1="43.771" dx2="30" dy="-170" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="WP.DO1" Destination="FB1.Start" dx1="43.77087" />
+      <Connection Source="FB1.STOPD" Destination="IL.DO1" dx1="49.20825" />
+      <Connection Source="ActSens.DI1" Destination="FB1.Home" dx1="43.771" dx2="30" dy="270" />
+      <Connection Source="ActSens.DI2" Destination="FB1.End" dx1="43.771" dx2="30" dy="210" />
+      <Connection Source="FB1.FWD" Destination="ActSens.DO1" />
+      <Connection Source="FB1.RETR" Destination="ActSens.DO2" />
+      <Connection Source="CLR.DO1" Destination="FB1.CLR" dx1="70" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

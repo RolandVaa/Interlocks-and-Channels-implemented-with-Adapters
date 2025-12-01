@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType Name="Sensor" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="6" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Horst Mayer" Date="9/14/2008" Remarks="template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="position" />
+        <With Var="range" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CHG" Comment="Execution Confirmation">
+        <With Var="res" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="position" Type="REAL" />
+      <VarDeclaration Name="range" Type="REAL" ArraySize="2" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="res" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="1" Name="Interface1" Type="Sensor_HMI" x="2020" y="400" Namespace="Main">
+      <Parameter Name="QI" Value="TRUE" />
+    </FB>
+    <FB ID="4" Name="FB1" Type="InRange" x="760" y="540" Namespace="Main" />
+    <FB ID="6" Name="FB2" Type="E_RESTART" x="340" y="120" Namespace="IEC61499.Standard" />
+    <Input Name="REQ">
+      <Position>
+        <X>10</X>
+        <Y>152.963547</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Input>
+    <Input Name="position">
+      <Position>
+        <X>10</X>
+        <Y>202.963531</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Input Name="range">
+      <Position>
+        <X>10</X>
+        <Y>227.963531</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Output Name="CHG">
+      <Position>
+        <X>687.0729</X>
+        <Y>317.9635</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Output>
+    <Output Name="res">
+      <Position>
+        <X>645</X>
+        <Y>287.963562</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Output>
+    <EventConnections>
+      <Connection Source="REQ" Destination="FB1.REQ" dx1="48.95837" />
+      <Connection Source="FB1.CHG" Destination="CHG" dx1="67.10425" />
+      <Connection Source="FB2.COLD" Destination="Interface1.INIT" dx1="60" />
+      <Connection Source="FB2.WARM" Destination="Interface1.INIT" dx1="40" />
+      <Connection Source="FB1.CHG" Destination="Interface1.IND" dx1="77.10425">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Interface1.INITO" Destination="FB1.INIT" dx1="49.5625" dx2="50" dy="-108" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FB1.result" Destination="res" dx1="440">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="position" Destination="FB1.pos" dx1="40" />
+      <Connection Source="range" Destination="FB1.range" dx1="40" />
+      <Connection Source="FB1.result" Destination="Interface1.sensRead">
+        <Points>
+          <Points>
+            <X>280.723938</X>
+            <Y>209.5</Y>
+          </Points>
+          <Points>
+            <X>398.223938</X>
+            <Y>209.5</Y>
+          </Points>
+          <Points>
+            <X>398.223938</X>
+            <Y>195</Y>
+          </Points>
+          <Points>
+            <X>470</X>
+            <Y>195</Y>
+          </Points>
+          <Points>
+            <X>470</X>
+            <Y>189.5</Y>
+          </Points>
+          <Points>
+            <X>500</X>
+            <Y>189.5</Y>
+          </Points>
+        </Points>
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+    </DataConnections>
+  </FBNetwork>
+</FBType>

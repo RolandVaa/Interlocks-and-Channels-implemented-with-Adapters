@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="d4fad328-4f24-46f1-9672-d49a3d068a12" Name="CylControlAdp" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="2" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmBH" Version="0.0" Author="valeriy" Date="7/14/2023" Remarks="template" />
+  <InterfaceList>
+    <Sockets>
+      <AdapterDeclaration Name="Sensors" Type="AdapterCyl" Namespace="Main" x="240" y="120" />
+      <AdapterDeclaration Name="WP" Type="BoolAdp" Namespace="Main" x="260" y="780" />
+    </Sockets>
+    <Plugs>
+      <AdapterDeclaration Name="Actuators" Type="AdapterCyl" Namespace="Main" x="1740" y="120" />
+    </Plugs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="1" Name="Main" Type="CylControl" x="1060" y="120" Namespace="Main" />
+    <EventConnections>
+      <Connection Source="Sensors.CNF" Destination="Main.REQ">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="WP.CNF" Destination="Main.REQ" dx1="193.7709">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Main.INITO" Destination="Actuators.INITO" />
+      <Connection Source="Main.CNF" Destination="Actuators.CNF" />
+      <Connection Source="Sensors.INITO" Destination="Main.INIT">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Main.INITO" Destination="WP.INIT" dx1="100.0417" dx2="30" dy="540">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="WP.DO1" Destination="Main.Start" dx1="253.7709">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Sensors.DO1" Destination="Main.Home">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="Sensors.DO2" Destination="Main.End" />
+      <Connection Source="Main.FWD" Destination="Actuators.DO1" />
+      <Connection Source="Main.RETR" Destination="Actuators.DO2" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

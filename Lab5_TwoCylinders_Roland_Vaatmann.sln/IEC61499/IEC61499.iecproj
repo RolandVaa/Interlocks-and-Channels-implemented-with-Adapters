@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Lab_5_Firstname_Lastname" Guid="{78C2A375-B7E6-41F0-9090-5EB82A0305B9}" Version="1.5.0.0" xmlns="http://www.nxtcontrol.com/IEC61499.xsd">
+  <Archive>
+    <ExcludeDir>
+      <string>Exports</string>
+      <string>Imports</string>
+      <string>Documentation</string>
+    </ExcludeDir>
+  </Archive>
+  <References />
+  <CanvasResolution StartCanvasClass="HMI.Main.Canvases.StartCanvas_2" Width="600" Height="600" WorkAreaWidth="600" WorkAreaHeight="520" Template="Default" Login="true" NavigationControl="0" CurrentUser="true" LanguageButton="true" RuntimeConnection="true" Logger="false" NavigationBar="true" NewVersionDeployed="true" Exit="false" ShowWarningMessage="false" WarningText="" SiblingButtonCount="5" ChildButtonCount="5" IsCanvasTopologyPanel="true" ResizeBehaviour="None">
+    <Topology Name="Default">
+      <Canvases>
+        <Canvas Name="Cnv1" Title="" Tooltip="" Instance="HMI.Main.Canvases.Cnv1" />
+        <Canvas Name="Cnv3" Title="" Tooltip="" Instance="HMI.Main.Canvases.Cnv3" />
+        <Canvas Name="Cnv4" Title="" Tooltip="" Instance="HMI.Main.Canvases.Cnv4" />
+      </Canvases>
+    </Topology>
+  </CanvasResolution>
+  <CanvasResolution StartCanvasClass="" Width="-1" Height="-1" WorkAreaWidth="-1" WorkAreaHeight="-1" Template="" Login="true" NavigationControl="0" CurrentUser="true" LanguageButton="true" RuntimeConnection="true" Logger="false" NavigationBar="true" NewVersionDeployed="true" Exit="false" ShowWarningMessage="false" WarningText="" SiblingButtonCount="5" ChildButtonCount="5" IsCanvasTopologyPanel="true" ResizeBehaviour="None">
+    <Topology Name="Default" />
+  </CanvasResolution>
+  <Graphics Name="Graphics" IsExternal="false">
+    <Graphics>
+      <GraphicFolder Name="External Graphics" IsExternal="true">
+        <Graphics>
+          <GraphicFolder Name="HMIBaseSymbols" IsExternal="true" />
+        </Graphics>
+      </GraphicFolder>
+    </Graphics>
+  </Graphics>
+  <WebGraphics Name="WebGraphics" IsExternal="false" />
+  <Security Level="Internal" IsActive="true">
+    <Info>﻿&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;UserManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" HighestID="2"&gt;&lt;UserInfos Name="DIAS" Password="$1$3C3DA1C7D01A0D824D3C90E94FB22935007A7E149DEE9C8E316DD599A64EEA2B$E43E16151B9E01DA62901E8E6D2C95EA7A727C3FC93699849EEF5D85AA963C65" SecurityToken="127" ID="1" MeetsCalLaw="true" /&gt;&lt;/UserManager&gt;</Info>
+  </Security>
+  <PluginGUIDs />
+</ProjectDatabase>

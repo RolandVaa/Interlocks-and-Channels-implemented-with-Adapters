@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE System SYSTEM "../LibraryElement.dtd">
+<System Name="System" Comment="System Configuration">
+  <Attribute Name="System.Device.FolderPath" Value="DEV1,DEV2" />
+  <Identification Standard="61499-1" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="cheyan" Date="9/26/2014" />
+  <Application ID="22E911E0CC1A7E16" Name="APP1">
+    <SubAppNetwork>
+      <FB ID="DA281AC9864A0CE8" Name="HCyl1" Type="HCylAdpOL" x="3000" y="240" Namespace="Main" />
+      <FB ID="3CCBADB56DA36F9D" Name="VCyl1" Type="VCylAdpOL" x="3000" y="660" Namespace="Main" />
+      <FB ID="4DCAC07755F7DD92" Name="WP1" Type="BUTTONAdp" x="460" y="420" Namespace="Main">
+        <Parameter Name="LABEL" Value="'WP'" />
+      </FB>
+      <FB ID="2724544F6CFE21FB" Name="FB1" Type="CylControlILAdpOL" x="2160" y="240" Namespace="Main" />
+      <FB ID="652E429F83B06E14" Name="FB2" Type="CylControlILAdpOL" x="2160" y="660" Namespace="Main" />
+      <FB ID="4735FFFFF8345008" Name="FB3" Type="ChanRcvBool" x="1480" y="240" Namespace="Main" />
+      <FB ID="986BBA9C497D541C" Name="FB4" Type="ChanSendBool" x="1020" y="240" Namespace="Main" />
+      <AdapterConnections>
+        <Connection Source="FB1.ActSens" Destination="HCyl1.ActSens" />
+        <Connection Source="FB2.ActSens" Destination="VCyl1.ActSens" />
+        <Connection Source="FB3.DO1" Destination="FB1.WP" />
+        <Connection Source="WP1.Out2" Destination="FB2.WP" dx1="40" />
+        <Connection Source="FB4.CO" Destination="FB3.CI" />
+        <Connection Source="WP1.Out1" Destination="FB4.DI" dx1="54.83337" />
+        <Connection Source="FB1.IL" Destination="FB2.CLR" dx1="46.0835" dx2="70" dy="90" />
+        <Connection Source="FB2.IL" Destination="FB1.CLR" dx1="70" dx2="30" dy="-310" />
+      </AdapterConnections>
+    </SubAppNetwork>
+  </Application>
+  <Application ID="54BDDA407A5B7DC2" Name="APP2">
+    <SubAppNetwork>
+      <FB ID="AA83DF982FE789D9" Name="HCyl3" Type="HCylAdpOL" x="2360" y="620" Namespace="Main" />
+      <FB ID="6DE6CAF759418CED" Name="VCyl3" Type="VCylAdpOL" x="2360" y="1020" Namespace="Main" />
+      <FB ID="2A9043D8E9794E4B" Name="WP6" Type="BUTTONAdp" x="440" y="780" Namespace="Main" />
+      <FB ID="32184DE78D52219B" Name="FB1" Type="CylControlILChanOL" x="1340" y="500" Namespace="Main" />
+      <FB ID="DAB513280F1C5266" Name="FB2" Type="CylControlILChanOL" x="1340" y="920" Namespace="Main" />
+      <AdapterConnections>
+        <Connection Source="WP6.Out1" Destination="FB1.CI" dx1="40" />
+        <Connection Source="WP6.Out2" Destination="FB2.CI" dx1="40" />
+        <Connection Source="FB1.ActSens" Destination="HCyl3.ActSens" dx1="46.08337" />
+        <Connection Source="FB1.IL" Destination="FB2.CLR" dx1="66.08337" dx2="70" dy="150" />
+        <Connection Source="FB2.ActSens" Destination="VCyl3.ActSens" dx1="46.08337" />
+      </AdapterConnections>
+    </SubAppNetwork>
+  </Application>
+  <Device ID="2e2f39c5-8c49-4381-8a71-a9e62b9c8b65" Name="DEV1" Type="Soft_dPAC" x="540.5885" y="1611.854" Namespace="SE.DPAC">
+    <Resource ID="D2608338511EDA20" Name="RES0" Type="EMB_RES_ECO" Namespace="Runtime.Management">
+      <FBNetwork>
+        <FB ID="99F4858B76C16642" Name="WP1" Type="BUTTONAdp" x="800" y="480" Namespace="Main">
+          <Parameter Name="LABEL" Value="'WP'" />
+        </FB>
+        <FB ID="E79729AA9FC9CE30" Name="FB4" Type="ChanSendBool" x="1040" y="240" Namespace="Main" />
+        <FB ID="94D6424F0EDBF71E" Name="HCyl1" Type="HCylAdpOL" x="3000" y="240" Namespace="Main" />
+        <FB ID="711343EFEC0AC6D9" Name="VCyl1" Type="VCylAdpOL" x="3000" y="660" Namespace="Main" />
+        <FB ID="6C4FB4C0B71EABC7" Name="FB1" Type="CylControlILAdpOL" x="2160" y="240" Namespace="Main" />
+        <FB ID="A463482C291F128D" Name="FB2" Type="CylControlILAdpOL" x="2160" y="660" Namespace="Main" />
+        <FB ID="E536508D40DDDFD2" Name="FB3" Type="ChanRcvBool" x="1480" y="240" Namespace="Main" />
+        <FB ID="61FDA71FC6298B3F" Name="HCyl3" Type="HCylAdpOL" x="2360" y="620" Namespace="Main" />
+        <FB ID="26C64FFD889A5879" Name="VCyl3" Type="VCylAdpOL" x="2360" y="1020" Namespace="Main" />
+        <AdapterConnections>
+          <Connection Source="FB1.ActSens" Destination="HCyl1.ActSens" />
+          <Connection Source="FB2.ActSens" Destination="VCyl1.ActSens" />
+          <Connection Source="FB3.DO1" Destination="FB1.WP" />
+          <Connection Source="WP1.Out2" Destination="FB2.WP" dx1="40" />
+          <Connection Source="FB4.CO" Destination="FB3.CI" />
+          <Connection Source="WP1.Out1" Destination="FB4.DI" dx1="54.83337" dx2="270" dy="150" />
+          <Connection Source="FB1.IL" Destination="FB2.CLR" dx1="46.0835" dx2="70" dy="90" />
+          <Connection Source="FB2.IL" Destination="FB1.CLR" dx1="70" dx2="30" dy="-310" />
+        </AdapterConnections>
+      </FBNetwork>
+    </Resource>
+    <FBNetwork />
+  </Device>
+  <Device ID="0003707f-80c8-4e3c-839b-2f7dea35bce4" Name="DEV2" Type="Soft_dPAC" x="540.5885" y="2191.854" Namespace="SE.DPAC">
+    <Resource ID="38D57D982DE98F2A" Name="RES0" Type="EMB_RES_ECO" Namespace="Runtime.Management">
+      <FBNetwork />
+    </Resource>
+    <FBNetwork />
+  </Device>
+  <Mapping From="APP1.WP1" To="DEV1.RES0" />
+  <Mapping From="APP1.FB4" To="DEV1.RES0" />
+  <Mapping From="APP1.HCyl1" To="DEV1.RES0" />
+  <Mapping From="APP1.VCyl1" To="DEV1.RES0" />
+  <Mapping From="APP1.FB1" To="DEV1.RES0" />
+  <Mapping From="APP1.FB2" To="DEV1.RES0" />
+  <Mapping From="APP1.FB3" To="DEV1.RES0" />
+  <Mapping From="APP2.HCyl3" To="DEV1.RES0" />
+  <Mapping From="APP2.VCyl3" To="DEV1.RES0" />
+  <Segment Name="SEGMENT1" Type="localhost" x="980" y="1080" dx1="1200" />
+</System>

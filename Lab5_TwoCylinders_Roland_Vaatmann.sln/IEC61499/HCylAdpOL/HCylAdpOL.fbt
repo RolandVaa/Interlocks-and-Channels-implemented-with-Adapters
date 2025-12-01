@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType GUID="9eb22c1a-f213-4d80-ac78-d37ec6198aa4" Name="HCylAdpOL" Comment="Composite Function Block Type" Namespace="Main">
+  <Attribute Name="Configuration.FB.IDCounter" Value="2" />
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Atmojo" Date="06/10/2018" Remarks="template" />
+  <InterfaceList>
+    <Sockets>
+      <AdapterDeclaration Name="ActSens" Type="AdapterCyl" Namespace="Main" x="1060" y="460" />
+    </Sockets>
+  </InterfaceList>
+  <FBNetwork>
+    <FB ID="1" Name="MainH" Type="HCylinderLS" x="1640" y="460" Namespace="Main" />
+    <FB ID="2" Name="StartHC" Type="E_RESTART" x="280" y="180" Namespace="IEC61499.Standard" />
+    <EventConnections>
+      <Connection Source="ActSens.CNF" Destination="MainH.REQ" />
+      <Connection Source="StartHC.COLD" Destination="MainH.INIT" dx1="718.6042">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="StartHC.WARM" Destination="MainH.INIT" dx1="718.6042">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="MainH.CNF" Destination="ActSens.REQ" dx1="97.771" dx2="60" dy="-200">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+      <Connection Source="MainH.INITO" Destination="ActSens.INIT" dx1="47.771" dx2="30" dy="-110" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ActSens.DO1" Destination="MainH.EXTEND" />
+      <Connection Source="ActSens.DO2" Destination="MainH.RETRACT" />
+      <Connection Source="MainH.EXTENDED" Destination="ActSens.DI2" dx1="47.771" dx2="30" dy="90" />
+      <Connection Source="MainH.RETRACTED" Destination="ActSens.DI1" dx1="77.771" dx2="60" dy="200">
+        <AvoidsNodes>false</AvoidsNodes>
+      </Connection>
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE FBType SYSTEM "../LibraryElement.dtd">
+<FBType Name="Valve" Comment="Composite Function Block Type" Namespace="Main">
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Horst Mayer" Date="9/14/2008" Remarks="template" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" />
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="value" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="value" Type="REAL" />
+    </InputVars>
+    <OutputVars />
+  </InterfaceList>
+  <FBNetwork>
+    <FB Name="Interface1" Type="Valve_HMI" x="1040" y="460" Namespace="Main">
+      <Parameter Name="QI" Value="TRUE" />
+    </FB>
+    <Input Name="INIT">
+      <Position>
+        <X>3</X>
+        <Y>3</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Input>
+    <Input Name="REQ">
+      <Position>
+        <X>3</X>
+        <Y>20.0729141</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Input>
+    <Input Name="value">
+      <Position>
+        <X>13.9999924</X>
+        <Y>197</Y>
+      </Position>
+      <IsType>Data</IsType>
+    </Input>
+    <Output Name="INITO">
+      <Position>
+        <X>529.4115</X>
+        <Y>37.14583</Y>
+      </Position>
+      <IsType>Event</IsType>
+    </Output>
+    <EventConnections>
+      <Connection Source="INIT" Destination="Interface1.INIT" dx1="118.8334" />
+      <Connection Source="REQ" Destination="Interface1.IND" dx1="26.95837" />
+      <Connection Source="Interface1.INITO" Destination="INITO" dx1="20" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="value" Destination="Interface1.value" dx1="20" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>
